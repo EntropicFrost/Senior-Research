@@ -1,13 +1,11 @@
-import java.io.File;
 import java.io.IOException;
-import java.text.DecimalFormat;
-import java.util.Enumeration;
 
 import weka.classifiers.Classifier;
 import weka.classifiers.Evaluation;
 import weka.classifiers.lazy.IBk;
 import weka.classifiers.lazy.KStar;
 import weka.classifiers.rules.ZeroR;
+import weka.classifiers.bayes.NaiveBayes;
 import weka.classifiers.trees.J48;
 import weka.core.Instance;
 import weka.core.Instances;
@@ -25,7 +23,7 @@ public class Driver {
 
  
 	public static void main(String[] args) throws Exception {
-		Instances data = getDataSet("car_data.arff");
+		Instances data = getDataSet("car_data_CSF_2018.arff");
 		data.setClassIndex(data.numAttributes() - 1);
 		
 		Classifier zr = new ZeroR();		
@@ -77,8 +75,19 @@ public class Driver {
 		System.out.println(evalk.toSummaryString());
 	    System.out.println(evalk.toClassDetailsString());
 		System.out.println(evalk.toMatrixString());
-		
 		/*
+		 * Achieved using WEKA GUI cause these just wont work
+		Classifier nb = new NaiveBayes();		
+		nb.buildClassifier(data);
+		System.out.println(nb);
+        Evaluation evalnb = new Evaluation(data);
+        evalk.evaluateModel(nb, data);
+		System.out.println("** NaiveBayes **");
+		System.out.println(evalnb.toSummaryString());
+	    System.out.println(evalnb.toClassDetailsString());
+		System.out.println(evalnb.toMatrixString());
+		
+		
 		Classifier j48 = new J48();		
 		String[] options = new String[1];
 		options[0]="-U";
@@ -86,7 +95,7 @@ public class Driver {
 		System.out.println(j48);
         Evaluation evalj = new Evaluation(data);
         evalk.evaluateModel(j48, data);
-		System.out.println("** KNN J48 **");
+		System.out.println("**J48**");
 		System.out.println(evalj.toSummaryString());
 	    System.out.println(evalj.toClassDetailsString());
 		System.out.println(evalj.toMatrixString());
